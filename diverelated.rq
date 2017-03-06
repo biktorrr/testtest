@@ -16,18 +16,18 @@ WHERE
 {
   {
     {
-      SELECT DISTINCT ?entity ?aevent WHERE {
-        { ?_current_ (owl:sameAs*|^owl:sameAs*) ?same.
+      SELECT DISTINCT ?entity WHERE {
+        { ?_current_iri (owl:sameAs*|^owl:sameAs*) ?same.
           ?same (dive:isRelatedTo|^dive:isRelatedTo) ?entity.
-        } UNION { ?_current_ skos:exactMatch ?match.
+        } UNION { ?_current_iri skos:exactMatch ?match.
           ?same skos:exactMatch ?match.
           ?same (dive:isRelatedTo|^dive:isRelatedTo) ?entity.
         } UNION {
-          ?_current_ (dive:isRelatedTo|^dive:isRelatedTo) ?entity.
+          ?_current_iri (dive:isRelatedTo|^dive:isRelatedTo) ?entity.
         }
       } GROUP BY ?entity 
     }
-    FILTER(?entity != ?_current_)
+    FILTER(?entity != ?_current_iri)
     ?entity rdf:type ?type.
     FILTER(?type=sem:Actor || ?type = sem:Place || ?type = sem:Event || ?type = skos:Concept || ?type=dive:MediaObject)
     OPTIONAL { ?entity rdfs:label ?alabel. }
